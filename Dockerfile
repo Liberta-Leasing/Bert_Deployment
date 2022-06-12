@@ -4,7 +4,6 @@ RUN apt-get update && apt-get install python3 python3-pip -y
 
 RUN apt-get -y install git
 
-RUN apt-get install -y apt-utils # FOR YOLO
 
 ENV TZ=Europe/Paris
 
@@ -17,4 +16,4 @@ RUN pip install -r Bert_deployement/requirements.txt
 
 RUN rm Bert_deployement/requirements.txt
 
-CMD ["python3", "Bert_deployement/main.py"]
+CMD ["python3", "Bert_Deployment/main.py"]
