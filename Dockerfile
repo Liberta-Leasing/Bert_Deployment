@@ -8,7 +8,7 @@ RUN apt-get -y install git
 ENV TZ=Europe/Paris
 
 RUN pip3 install -q transformers   # here or dans requirements text SAME
-Run pip3 install sklearn
+RUN pip3 install sklearn
 
 
 
