@@ -9,7 +9,7 @@ ENV TZ=Europe/Paris
 
 RUN pip3 install -q transformers   # here or dans requirements text SAME
 RUN pip3 install sklearn
-RUN pip3 install -U scikit-learn
+RUN pip3 install -U scikit-learn # here I should install a recent version of sklearn in requirements and not install and upgrade
 
 
 RUN git clone https://github.com/Liberta-Leasing/Bert_deployment.git
