@@ -16,4 +16,4 @@ RUN pip install -r Bert_deployment/requirements.txt
 
 RUN rm Bert_deployment/requirements.txt
 
-CMD ["python3", "Bert_Deployment/main.py"]
+CMD ["python3", "Bert_deployment/main.py"]
