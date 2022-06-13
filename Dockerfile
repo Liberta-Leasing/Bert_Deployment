@@ -8,6 +8,9 @@ RUN apt-get -y install git
 ENV TZ=Europe/Paris
 
 RUN pip3 install -q transformers   # here or dans requirements text SAME
+Run pip3 install sklearn
+
+
 
 
 RUN git clone https://github.com/Liberta-Leasing/Bert_deployment.git
