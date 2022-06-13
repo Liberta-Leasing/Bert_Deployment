@@ -10,7 +10,7 @@ ENV TZ=Europe/Paris
 RUN pip3 install -q transformers   # here or dans requirements text SAME
 RUN pip3 install sklearn
 RUN pip3 install -U scikit-learn
-
+COPY model.pt Bert_deployment
 
 
 
