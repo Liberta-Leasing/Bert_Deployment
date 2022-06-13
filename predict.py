@@ -66,6 +66,6 @@ def classifier(INPUT_FILE, loaded_model): # not possible when using lambda funct
     
   df1 = pd.DataFrame(list(zip(transaction_list, pred_list, pred_code_list)), columns = ['TRANSACTION', 'CATEGORY', 'CATEGORY_CODE'])
 
-  df1.to_csv('ouptput.csv')
+  df1.to_csv('new_ouptput.csv')
 
 
