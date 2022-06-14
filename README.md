@@ -32,9 +32,8 @@ Bert_deployment
   ```bash
    docker run your image name:your tag
   ```
-  --> the prediction will be run inside the container
-  <details open>
-  <summary>explore the container </summary>
+ 
+  <summary>What happens when you run the container </summary>
     
   The files in the github repository will be pushed automatcillay to the docker container, the model.pt will be copied as well from locally and a new csv file will be created in the container: it's the output.csv that includes the prediction as requested by predict.py.
   
@@ -44,7 +43,7 @@ Bert_deployment
    docker ps -a
   ```
   <details open>
-  <summary>container CLI </summary>
+  <summary>The container CLI </summary>
     
   In order to see the files indide the running container :
   - take the container id from the output of the previous code and look for it in
