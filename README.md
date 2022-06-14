@@ -33,14 +33,16 @@
   --> the prediction will be run inside the container
   <details open>
   <summary>explore the container </summary>
-  * The files in the github repository will be pushed automatcillay to docker container, the model.pt will be copied as well from locally and new file will be created in the container: it's the output.csv that includes the prediction as requested by predict.py.
+  The files in the github repository will be pushed automatcillay to the docker container, the model.pt will be copied as well from locally and a new csv file will be created in the container: it's the output.csv that includes the prediction as requested by predict.py.
   
- * Use this code to print information about the containers
+ Use this code to print information about the containers
   
    ```bash
    docker ps -a
   ```
-  * In order to see the files indide the running container :
+  <details open>
+  <summary>Build and run docker Image</summary>
+  In order to see the files indide the running container :
   - take the container id from the output of the previous code and look for it in
   the docker app. 
   - click on the running container CLI and see the files by typing ls
