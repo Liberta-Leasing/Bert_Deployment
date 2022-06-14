@@ -1,3 +1,3 @@
-MODEL_PATH = '/root/Bert_deployment/model.pt'
+MODEL_PATH = 'model.pt'
 INPUT_FILE= 'input.csv'
 
