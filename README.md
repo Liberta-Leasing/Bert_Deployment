@@ -1,12 +1,6 @@
 # Bert_Deployment
-# Using Bert model Docker
-## Using your own trained model and your input.csv file  
-<details open>
-<summary>Install and Prepare</summary>
-  
-```bash
-git clone https://github.com/Abzurde/yolov5.git
-```
+## Using your own trained model and your input.csv file to predict in docker container 
+
 <details open>
 <summary> Prepare your local folder shown below </summary>
 * Bert_deployment
@@ -55,11 +49,11 @@ git clone https://github.com/Abzurde/yolov5.git
 <details open>
 <summary>Copy your output in your local host</summary>
   
-We need to copy outpu.csv from the repository Bert_deployment in the container to our classi folder which has the path /c/Users/manar/Desktop/classi
+ We need to copy outpu.csv from the repository Bert_deployment in the container to our classi folder which has the path /c/Users/manar/Desktop/classi
   get the running container id or name (using the line docker ps -a)
   
-```bash
-docker cp containerid:/home/Bert_deployment/ouptput.csv /c/Users/manar/Desktop/classi
-```
+  ```bash
+  docker cp containerid:/home/Bert_deployment/ouptput.csv /c/Users/manar/Desktop/classi
+  ```
 
-your output.csv file is now in your classi folder
+Find your output.csv file in your classi folder !
