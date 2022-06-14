@@ -16,8 +16,8 @@ RUN cd /root && git clone https://github.com/Liberta-Leasing/Bert_deployment.git
 COPY model.pt Bert_deployment
 
 
-RUN pip install -r /root/Bert_deployment/requirements.txt
+RUN pip install -r Bert_deployment/requirements.txt
 
-RUN rm /root/Bert_deployment/requirements.txt
+RUN rm Bert_deployment/requirements.txt
 
-CMD ["python3", "root/Bert_deployment/main.py"]
+CMD ["python3", "Bert_deployment/main.py"]
