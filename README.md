@@ -1,5 +1,5 @@
 # Bert_Deployment
-## Using your own trained model and your input.csv file to predict in docker container 
+## Using a trained model and an input.csv file to predict in a docker container 
 
 <details open>
 <summary> Prepare your local folder shown below </summary>
