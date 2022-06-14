@@ -3,7 +3,8 @@
 
 <details open>
 <summary> Prepare your local folder shown below </summary>
-* Bert_deployment
+  
+Bert_deployment
   - input.csv
   - Dockerfile
   - model.pt (have a look from here ......)
@@ -17,6 +18,7 @@
 
 <details open>
 <summary>Build and run docker Image</summary>
+  
   - open your Docker desktop 
   - create a new empty folder (e.g. classi) and put in it:
        .  the Dockerfile
@@ -33,6 +35,7 @@
   --> the prediction will be run inside the container
   <details open>
   <summary>explore the container </summary>
+    
   The files in the github repository will be pushed automatcillay to the docker container, the model.pt will be copied as well from locally and a new csv file will be created in the container: it's the output.csv that includes the prediction as requested by predict.py.
   
  Use this code to print information about the containers
@@ -41,7 +44,8 @@
    docker ps -a
   ```
   <details open>
-  <summary>Build and run docker Image</summary>
+  <summary>container CLI </summary>
+    
   In order to see the files indide the running container :
   - take the container id from the output of the previous code and look for it in
   the docker app. 
@@ -58,4 +62,4 @@
   docker cp containerid:/home/Bert_deployment/ouptput.csv /c/Users/manar/Desktop/classi
   ```
 
-Find your output.csv file in your classi folder !
+Find your output.csv file in your local classi folder !
