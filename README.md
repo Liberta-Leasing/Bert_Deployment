@@ -32,10 +32,17 @@ Bert_deployment
   ```bash
    docker run your image name:your tag
   ```
- 
+  <details open>
   <summary>What happens when you run the container </summary>
     
-  The files in the github repository will be pushed automatcillay to the docker container, the model.pt will be copied as well from locally and a new csv file will be created in the container: it's the output.csv that includes the prediction as requested by predict.py.
+  - The files in the github repository will be pushed automatcillay to the docker container
+  - the prediction will be run inside the container, printed in the cmd (bash in my case)
+  - the model.pt will be copied as well from locally and a new csv file will be created in the container: it's the output.csv that includes the prediction as requested by predict.py
+  - if you want to see the result directly in the container you can replace the previous line by the next one  (300, 200, etc : the the duration you want the container keeps alive
+    
+   ```bash
+   docker run your image name:your tag  sleep 3000
+   ```
   
  Use this code to print information about the containers
   
