@@ -59,7 +59,7 @@ Bert_deployment
   get the running container id or name (using the line docker ps -a)
   
   ```bash
-  docker cp containerid:/home/Bert_deployment/ouptput.csv /c/Users/manar/Desktop/classi
+  docker cp container id:/home/Bert_deployment/ouptput.csv /c/Users/manar/Desktop/classi
   ```
 
 Find your output.csv file in your local classi folder !
