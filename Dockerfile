@@ -27,4 +27,4 @@ RUN pip install -r Bert_deployment/requirements.txt --target "${LAMBDA_TASK_ROOT
 WORKDIR "${LAMBDA_TASK_ROOT}"
 
 # Step 10: Execute the code
-CMD ["main.lambda_handler"]
+CMD ["Bert_deployment/main.lambda_handler"]
