@@ -2,7 +2,7 @@ pandas==1.4.2
 torch >= 1.7
 transformers
 torchvision==0.12.0
-keras==2.9.0
+#keras==2.9.0
 matplotlib==3.5.2
 openpyxl== 3.0.10
 -U scikit-learn

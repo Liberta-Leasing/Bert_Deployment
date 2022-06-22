@@ -1,4 +1,3 @@
-from to_load import load_model
 from predict import *
 import boto3
 import sys
