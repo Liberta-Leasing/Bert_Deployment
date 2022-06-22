@@ -1,31 +1,35 @@
-# Step 1: Choose the base image
-FROM ubuntu:20.04
+FROM amazon/aws-lambda-python:3.9
 
-# Step 2: Install/Update pip
-RUN apt-get update && apt-get install python3 python3-pip -y
+WORKDIR /home/ubuntu
 
-# Step 3: Install git
-RUN apt-get -y install git
+RUN yum clean all
 
-# Step 4: Setting an Environment Variable
+ARG DEBIAN_FRONTEND=noninteractive
+
 ENV TZ=Europe/Paris
 
+RUN yum update -y && yum install -y make curl wget sudo libtool clang git gcc-c++.x86_64 libgl1 libgl1-mesa-glx mesa-libGL ffmpeg libsm6 libxext6 poppler-utils
+
+RUN yum install python3 python3-pip -y
+
+WORKDIR "${LAMBDA_TASK_ROOT}"
+
 # Step 5: Intalling packages (Should be in the requirements.txt)
-RUN pip3 install -q transformers   # here or dans requirements text SAME
-RUN pip3 install sklearn
-RUN pip3 install -U scikit-learn # here I should install a recent version of sklearn in requirements and not install and upgrade
+RUN pip3 install -q transformers --target "${LAMBDA_TASK_ROOT}"  # here or dans requirements text SAME
+RUN pip3 install sklearn --target "${LAMBDA_TASK_ROOT}"
+RUN pip3 install -U scikit-learn --target "${LAMBDA_TASK_ROOT}"# here I should install a recent version of sklearn in requirements and not install and upgrade
 
 # Step 6: Cloning the repo into the ./home folder
 RUN cd ./home && git clone https://github.com/Liberta-Leasing/Bert_deployment.git
 
 # Step 7: Copy the model in the /home/Bert_deployment folder.
-COPY model.pt ./home/Bert_deployment
+COPY model.pt "${LAMBDA_TASK_ROOT}"
 
 # Step 8: Install our requeriments
-RUN pip install -r ./home/Bert_deployment/requirements.txt
+RUN pip install -r ./home/Bert_deployment/requirements.txt --target "${LAMBDA_TASK_ROOT}"
 
 # Step 9: Set ./home/Bert_deployment as the working directory
-WORKDIR ./home/Bert_deployment
+WORKDIR "${LAMBDA_TASK_ROOT}"
 
 # Step 10: Execute the code
-CMD ["python3", "main.py"]
+CMD ["main.lambda_handler"]
