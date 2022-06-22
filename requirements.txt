@@ -5,5 +5,5 @@ keras==2.9.0
 tensorflow==2.9.1
 matplotlib==3.5.2
 openpyxl== 3.0.10
-sklearn
+-U scikit-learn
 transformers   # here or dans requirements text SAME
