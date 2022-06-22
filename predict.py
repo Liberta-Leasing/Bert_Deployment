@@ -3,7 +3,7 @@ import torch
 import csv
 
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
-from tensorflow.keras.preprocessing.sequence import pad_sequences
+#from tensorflow.keras.preprocessing.sequence import pad_sequences
 from sklearn.model_selection import train_test_split
 
 from transformers import BertTokenizer, BertConfig
@@ -23,7 +23,7 @@ import pandas as pd
 # we have to add the loaded_model import here or another script
 def classifier(INPUT_FILE, loaded_model): # not possible when using lambda function 
    
-  df = pd.read_csv(INPUT_FILE, sep =';' )
+  df = pd.read_csv(local_file, sep =';' )
   transaction_list = [] 
   pred_list= []
   pred_code_list=[]
