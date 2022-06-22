@@ -29,4 +29,4 @@ RUN cd ./Bert_deployment
 WORKDIR "${LAMBDA_TASK_ROOT}"
 
 # Step 10: Execute the code
-CMD ["Bert_deployment/main.lambda_handler"]
+CMD ["main.lambda_handler"]
