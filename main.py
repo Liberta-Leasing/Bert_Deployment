@@ -8,6 +8,17 @@ import botocore
 import os
 import subprocess
 
+s3 = boto3.resource('s3')
+
+def download_from_s3(file,object_name):
+    try:
+        s3.Bucket('statementsoutput').download_file(file,object_name)
+    except botocore.exceptions.ClientError as e:
+        if e.response['Error']['Code'] == "404":
+            print("The object does not exist.")
+        else:
+            raise
+
 def lambda_handler(event, context):
 
     print(event)
@@ -28,16 +39,6 @@ def lambda_handler(event, context):
     classifier(local_file, loaded_model)
   
     # Predict
-  
-  
-def download_from_s3(file,object_name):
-    try:
-        s3.Bucket('statementsoutput').download_file(file,object_name)
-    except botocore.exceptions.ClientError as e:
-        if e.response['Error']['Code'] == "404":
-            print("The object does not exist.")
-        else:
-            raise
 
 
 
