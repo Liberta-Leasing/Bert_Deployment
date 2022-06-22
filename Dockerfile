@@ -23,10 +23,10 @@ RUN git clone https://github.com/Liberta-Leasing/Bert_deployment.git
 # Step 8: Install our requeriments
 RUN pip install -r Bert_deployment/requirements.txt --target "${LAMBDA_TASK_ROOT}"
 
-RUN cd Bert_deployment
+RUN cd ./Bert_deployment
 
 # Step 9: Set ./home/Bert_deployment as the working directory
 WORKDIR "${LAMBDA_TASK_ROOT}"
 
 # Step 10: Execute the code
-CMD ["main.lambda_handler"]
+CMD ["Bert_deployment/main.lambda_handler"]
