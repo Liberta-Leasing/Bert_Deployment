@@ -2,7 +2,7 @@ from to_load import load_model
 import config
 from predict import *
 
-def main():
+def lambda_handler(event, context):
 
     # All the necessary steps to execute the model
 
