@@ -1,15 +1,4 @@
-#from predict import load_model
-#from predict import classifier
-import boto3
-import sys
-
-sys.path.insert(0, '/tmp/')
-
-import botocore
-import os
-import subprocess
-import json
-
+# script for predict
 import torch
 import csv
 
@@ -30,40 +19,6 @@ from transformers import DistilBertForSequenceClassification, Trainer, TrainingA
 from transformers import DistilBertTokenizerFast, AutoTokenizer
 from sklearn.model_selection import train_test_split
 import pandas as pd
-
-s3 = boto3.resource('s3')
-
-def lambda_handler(event, context):
-
-    print(event)
-    #download the image
-    csv_i = event["Records"][0]["s3"]["object"]["key"]
-    csv_key = event["Records"][0]["s3"]["object"]["key"].split('/')
-    filename = csv_key[-1]
-    local_file = '/tmp/'+filename
-    download_from_s3(csv_i,local_file)
-
-    # All the necessary steps to execute the model
-    model_path = s3.Bucket('bert-weights').download_file('model.pt','/tmp/model.pt')
-
-    # Loading the model
-    loaded_model=load_model('/tmp/model.pt')
-    # Predict
-
-    classifier(local_file, loaded_model)
-
-    return "output: Lambda execution was successful"
-  
-    # Predict
-
-def download_from_s3(file,object_name):
-    try:
-        s3.Bucket('statementsoutput').download_file(file,object_name)
-    except botocore.exceptions.ClientError as e:
-        if e.response['Error']['Code'] == "404":
-            print("The object does not exist.")
-        else:
-            raise
 
 def load_model(model_path):
 	
@@ -116,23 +71,6 @@ def classifier(INPUT_FILE, loaded_model): # not possible when using lambda funct
     
   df1 = pd.DataFrame(list(zip(transaction_list, pred_list, pred_code_list)), columns = ['TRANSACTION', 'CATEGORY', 'CATEGORY_CODE'])
 
-  df_csv = df1.to_csv('my_ouptput.csv')
-
-  return df_csv
+  df1.to_csv('my_ouptput.csv')
 
 
-#Function to upload files to s3
-def upload_file(df_csv, object_name=None):
-    """Upload a file to an S3 bucket
-    :param file_name: File to upload
-    :param bucket: Bucket to upload to
-    :param object_name: S3 object name. If not specified then file_name is used
-    :return: True if file was uploaded, else False
-    """
-    # Upload the file
-    try:
-        response = s3_client.upload_file(df_csv, 'statementsoutput', object_name)
-    except ClientError as e:
-        logging.error(e)
-        return False
-    return True
