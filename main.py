@@ -1,4 +1,5 @@
-from predict import *
+from predict import load_model
+from predict import classifier
 import boto3
 import sys
 
@@ -8,6 +9,7 @@ import botocore
 import os
 import subprocess
 import json
+
 
 s3 = boto3.resource('s3')
 
