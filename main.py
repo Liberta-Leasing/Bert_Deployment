@@ -41,7 +41,7 @@ def lambda_handler(event, context):
     csv_key = event["Records"][0]["s3"]["object"]["key"].split('/')
     filename = csv_key[-1]
     local_file = f'/tmp/{filename}'
-    download_from_s3(csv_i,local_file)
+    download_from_s3(local_file, csv_i)
 
     # All the necessary steps to execute the model
     model_path = s3.Bucket('bert-weights').download_file('model.pt','/tmp/model.pt')
@@ -80,7 +80,7 @@ def classifier(local_file, loaded_model): # not possible when using lambda funct
   for index, row in df.iterrows():
     text = row['DESCRIPTION']
     model_ckpt = "distilbert-base-uncased"
-    tokenizer = AutoTokenizer.from_pretrained(model_ckpt, problem_type="multi_label_classification")
+    tokenizer = AutoTokenizer.from_pretrained(model_ckpt, problem_type="multi_label_classification",cache_dir="/tmp")
     encoding = tokenizer(text, return_tensors="pt")#
     outputs = loaded_model(**encoding)
     predictions = outputs.logits.argmax(-1)
