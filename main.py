@@ -40,7 +40,7 @@ def lambda_handler(event, context):
     csv_i = event["Records"][0]["s3"]["object"]["key"]
     csv_key = event["Records"][0]["s3"]["object"]["key"].split('/')
     filename = csv_key[-1]
-    local_file = '/tmp/'+filename
+    local_file = f'/tmp/{filename}'
     download_from_s3(csv_i,local_file)
 
     # All the necessary steps to execute the model
@@ -71,7 +71,7 @@ def load_model(model_path):
 	return loaded_model
 
 # we have to add the loaded_model import here or another script
-def classifier(INPUT_FILE, loaded_model): # not possible when using lambda function 
+def classifier(local_file, loaded_model): # not possible when using lambda function 
    
   df = pd.read_csv(local_file, sep =';' )
   transaction_list = [] 
