@@ -1,5 +1,5 @@
-from predict import load_model
-from predict import classifier
+#from predict import load_model
+#from predict import classifier
 import boto3
 import sys
 
