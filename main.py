@@ -39,6 +39,9 @@ s3_client = boto3.client('s3')
 
 def lambda_handler(event, context):
 
+    os.makedirs('/tmp/tesseract_csv_zip', exist_ok= True) 
+    print("1 : /tmp/tesseract_csv_zip was created")
+
     print(event)
     #download the image
     csv_key = event["Records"][0]["s3"]["object"]["key"]
