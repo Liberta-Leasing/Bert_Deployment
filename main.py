@@ -10,9 +10,11 @@ import botocore
 import os
 import subprocess
 import json
+import glob
 
 import torch
 import csv
+from zipfile import ZipFile
 
 from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 #from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -39,28 +41,94 @@ def lambda_handler(event, context):
 
     print(event)
     #download the image
-    csv_i = event["Records"][0]["s3"]["object"]["key"]
-    print(csv_i)
-    csv_key = event["Records"][0]["s3"]["object"]["key"].split('/')
-    filename = csv_key[-1]
-    print(filename)
-    local_file = f'/tmp/{filename}'
+    csv_key = event["Records"][0]["s3"]["object"]["key"]
+    print(csv_key)
+    csv_split = event["Records"][0]["s3"]["object"]["key"].split('/')
+    folder = csv_split[-1]
+    print(folder)
+    local_zip_file = f'/tmp/{folder}'
     #download_from_s3(filename, local_file)
-    download_from_s3(csv_i, local_file)
+    download_from_s3(csv_key, local_zip_file)
+    list_of_files = unzip(local_zip_file)
 
-    # All the necessary steps to execute the model
-    model_path = s3.Bucket('bert-weights').download_file('model.pt','/tmp/model.pt')
+    output_files = []
+    print("####################\n")  
+    print("WHERE ARE MY FILES?\n")
+    print("####################\n")  
+    print("step 1: listing files matching /tmp/*.jpg ")
+    print(glob.glob("/tmp/*.csv"))
+    print("step 2: listing the files matching tmp/*.jpg")
+    print(glob.glob("tmp/*.csv"))
+    print("step 3: listing the files in tmp/")
+    print(os.listdir("/tmp"))
+    print("step 4: listing the files matching /tmp/tesseract_csv.zip/*.csv" )
+    print(glob.glob("/tmp/tmp/tesseract_csv.zip/*.csv"))
+    print("step 5: listing the files matching /tmp/tesseract_csv.zip")
+    print(os.listdir("/tmp/tesseract_csv.zip"))
+    
+    
+    print("####################\n")  
+    print("BERT\n")
+    print("####################\n") 
+  # Goes through all images in the folder.
+    for csv_file in glob.glob("/tmp/yolo_output_zip/tmp/*.jpg"):
+        try:
+            print("toto")
 
-    # Loading the model
-    loaded_model=load_model('/tmp/model.pt')
-    # Predict
+            # All the necessary steps to execute the model
+            model_path = s3.Bucket('bert-weights').download_file('model.pt','/tmp/model.pt')
 
-    classifier(local_file, loaded_model)
-    upload_file('/tmp/my_ouptput.csv','output-tables/output.csv')
+            # Loading the model
+            loaded_model=load_model('/tmp/model.pt')
+            # Predict
+
+            classifier(csv_file, loaded_model)
+
+            output_files.append(f'bert_{csv_file}')
+            upload_file('/tmp/my_ouptput.csv','output-tables/output.csv')
+
+        except Exception as e :
+            print("error for csv_file : ", csv_file)
+            print(e)
+            continue
+
+    print(output_files)
+    zip_files(output_files)
+    
+    print("####################\n")  
+    print("OUTPUT\n")
+    print("####################\n") 
+    # will be problematic if we want to keep track of the customer 
+    upload_file('/tmp/bert_csv.zip','processing/'+folder+'/bert_output/bert_csv.zip')
 
     return "output: Lambda execution was successful"
   
     # Predict
+
+# DOCSTRINGS PLEASE
+def zip_files(files):
+    # writing files to a zipfile
+    with ZipFile('/tmp/tesseract_csv.zip','w') as zip:
+        # writing each file one by one
+        for file in files:
+            zip.write(file) 
+
+
+def unzip(zipped_file_name):
+    directory = os.getcwd()
+    os.chdir('/tmp/tesseract_csv.zip')
+    # opening the zip file in READ mode
+    with ZipFile(zipped_file_name, 'r') as zip:
+        # printing all the contents of the zip file
+        zip.printdir()
+        list_of_files = zip.namelist()
+        # extracting all the files
+        print('Extracting all the files now...')
+        zip.extractall()
+        print('Unzipping Done!')
+        os.chdir(directory)
+        return list_of_files   
+
 
 def download_from_s3(remoteFilename,local_file):
     try:
