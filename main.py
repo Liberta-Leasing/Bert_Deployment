@@ -1,6 +1,7 @@
 #from predict import load_model
 #from predict import classifier
 import boto3
+from botocore.exceptions import ClientError
 import sys
 
 sys.path.insert(0, '/tmp/')
@@ -32,16 +33,20 @@ from sklearn.model_selection import train_test_split
 import pandas as pd
 
 s3 = boto3.resource('s3')
+s3_client = boto3.client('s3')
 
 def lambda_handler(event, context):
 
     print(event)
     #download the image
     csv_i = event["Records"][0]["s3"]["object"]["key"]
+    print(csv_i)
     csv_key = event["Records"][0]["s3"]["object"]["key"].split('/')
     filename = csv_key[-1]
+    print(filename)
     local_file = f'/tmp/{filename}'
-    download_from_s3(local_file, csv_i)
+    #download_from_s3(filename, local_file)
+    download_from_s3(csv_i, local_file)
 
     # All the necessary steps to execute the model
     model_path = s3.Bucket('bert-weights').download_file('model.pt','/tmp/model.pt')
@@ -51,14 +56,15 @@ def lambda_handler(event, context):
     # Predict
 
     classifier(local_file, loaded_model)
+    upload_file('/tmp/my_ouptput.csv','output-tables/output.csv')
 
     return "output: Lambda execution was successful"
   
     # Predict
 
-def download_from_s3(file,object_name):
+def download_from_s3(remoteFilename,local_file):
     try:
-        s3.Bucket('statementsoutput').download_file(file,object_name)
+        s3.Bucket('statementsoutput').download_file(remoteFilename,local_file)
     except botocore.exceptions.ClientError as e:
         if e.response['Error']['Code'] == "404":
             print("The object does not exist.")
@@ -116,13 +122,13 @@ def classifier(local_file, loaded_model): # not possible when using lambda funct
     
   df1 = pd.DataFrame(list(zip(transaction_list, pred_list, pred_code_list)), columns = ['TRANSACTION', 'CATEGORY', 'CATEGORY_CODE'])
 
-  df_csv = df1.to_csv('my_ouptput.csv')
+  df1.to_csv('/tmp/my_ouptput.csv')
 
-  return df_csv
+  #return df_csv
 
 
 #Function to upload files to s3
-def upload_file(df_csv, object_name=None):
+def upload_file(df_csv, object_name):
     """Upload a file to an S3 bucket
     :param file_name: File to upload
     :param bucket: Bucket to upload to
@@ -133,6 +139,7 @@ def upload_file(df_csv, object_name=None):
     try:
         response = s3_client.upload_file(df_csv, 'statementsoutput', object_name)
     except ClientError as e:
-        logging.error(e)
+        print("Upload failed")
+        #logging.error(e)
         return False
     return True
