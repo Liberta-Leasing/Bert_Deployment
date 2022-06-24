@@ -58,7 +58,7 @@ def lambda_handler(event, context):
     print("####################\n")  
     print("WHERE ARE MY FILES?\n")
     print("####################\n")  
-    print("step 1: listing files matching /tmp/*.jpg ")
+    print("step 1: listing files matching /tmp/*.csv ")
     print(glob.glob("/tmp/*.csv"))
     print("step 2: listing the files matching tmp/*.csv")
     print(glob.glob("tmp/*.csv"))
@@ -68,13 +68,18 @@ def lambda_handler(event, context):
     print(glob.glob("/tmp/tmp/tesseract_csv_zip/*.csv"))
     print("step 5: listing the files matching /tmp/tesseract_csv_zip")
     print(os.listdir("/tmp/tesseract_csv_zip"))
-    
-    
+    print("step 6: listing the files matching tmp/yolo_output_zip/tmp/")
+    print(glob.glob("tmp/yolo_output_zip/tmp/"))
+    print("step 7: listing the files matching tmp/yolo_output_zip/tmp/")
+    print(os.listdir("tmp/yolo_output_zip/tmp/"))
+    print("step 8: listing the files matching /tmp/yolo_output_zip/tmp/")
+    print(os.listdir("/tmp/yolo_output_zip/tmp/"))
+
     print("####################\n")  
     print("BERT\n")
     print("####################\n") 
   # Goes through all images in the folder.
-    for csv_file in glob.glob("/tmp/tesseract_csv_zip/tmp/*.csv"):
+    for csv_file in glob.glob("/tmp/yolo_output_zip/tmp/*.csv"):
         try:
             print("toto")
 
@@ -102,7 +107,7 @@ def lambda_handler(event, context):
     print("OUTPUT\n")
     print("####################\n") 
     # will be problematic if we want to keep track of the customer 
-    upload_file('/tmp/bert_csv.zip','processing/'+folder+'/bert_output/bert_csv.zip')
+    upload_file('/tmp/bert_csv.zip','processing/bert_output/bert_csv.zip')
 
     return "output: Lambda execution was successful"
   
@@ -193,7 +198,7 @@ def classifier(local_file, loaded_model): # not possible when using lambda funct
     
   df1 = pd.DataFrame(list(zip(transaction_list, pred_list, pred_code_list)), columns = ['TRANSACTION', 'CATEGORY', 'CATEGORY_CODE'])
 
-  df1.to_csv('/tmp/my_ouptput.csv')
+  df1.to_csv(f'/tmp/bert_{local_file}.csv')
 
   #return df_csv
 
