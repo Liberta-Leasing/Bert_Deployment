@@ -108,7 +108,7 @@ def lambda_handler(event, context):
 # DOCSTRINGS PLEASE
 def zip_files(files):
     # writing files to a zipfile
-    with ZipFile('/tmp/tesseract_csv.zip','w') as zip:
+    with ZipFile('/tmp/bert_csv.zip','w') as zip:
         # writing each file one by one
         for file in files:
             zip.write(file) 
@@ -116,7 +116,7 @@ def zip_files(files):
 
 def unzip(zipped_file_name):
     directory = os.getcwd()
-    os.chdir('/tmp/tesseract_csv.zip')
+    os.chdir('/tmp/tesseract_csv_zip')
     # opening the zip file in READ mode
     with ZipFile(zipped_file_name, 'r') as zip:
         # printing all the contents of the zip file
