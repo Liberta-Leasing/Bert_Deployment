@@ -71,9 +71,9 @@ def lambda_handler(event, context):
     print("step 6: listing the files matching /tmp/tesseract_csv_zip/tmp")
     print(os.listdir("/tmp/tesseract_csv_zip/tmp"))
     print("step 7: listing the files matching /tmp/tesseract_csv_zip/tmp/yolo_output_zip/")
-    print(os.listdir("/tmp/tesseract_csv_zip/tmp/yolo_output_zip/*"))
+    print(os.listdir("/tmp/tesseract_csv_zip/tmp/yolo_output_zip"))
     print("step 8: listing the files matching /tmp/tesseract_csv_zip/tmp/yolo_output_zip/tmp/")
-    print(os.listdir("/tmp/tesseract_csv_zip/tmp/yolo_output_zip/tmp/*"))
+    print(os.listdir("/tmp/tesseract_csv_zip/tmp/yolo_output_zip/tmp"))
 
     print("####################\n")  
     print("BERT\n")
