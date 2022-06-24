@@ -74,7 +74,7 @@ def lambda_handler(event, context):
     print("BERT\n")
     print("####################\n") 
   # Goes through all images in the folder.
-    for csv_file in glob.glob("/tmp/yolo_output_zip/tmp/*.csv"):
+    for csv_file in glob.glob("/tmp/tesseract_csv_zip/tmp/*.csv"):
         try:
             print("toto")
 
