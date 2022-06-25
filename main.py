@@ -80,25 +80,25 @@ def lambda_handler(event, context):
     print("####################\n") 
   # Goes through all images in the folder.
     for csv_file in glob.glob("/tmp/tesseract_csv_zip/tmp/yolo_output_zip/tmp/*.csv"):
-      try:
-        print("toto")
+      #try:
+      print("toto")
 
-        # All the necessary steps to execute the model
-        model_path = s3.Bucket('bert-weights').download_file('model.pt','/tmp/model.pt')
+      # All the necessary steps to execute the model
+      model_path = s3.Bucket('bert-weights').download_file('model.pt','/tmp/model.pt')
 
-        # Loading the model
-        loaded_model=load_model('/tmp/model.pt')
-        # Predict
+      # Loading the model
+      loaded_model=load_model('/tmp/model.pt')        
+      # Predict
 
-        classifier(csv_file, loaded_model)
+      classifier(csv_file, loaded_model)
 
-        output_files.append(f'bert_{csv_file}')
-        upload_file('/tmp/my_ouptput.csv','output-tables/output.csv')
+      output_files.append(f'bert_{csv_file}')
+      upload_file('/tmp/my_ouptput.csv','output-tables/output.csv')
 
-      except Exception as e :
-        print("error for csv_file : ", csv_file)
-        print(e)
-        continue
+    #except Exception as e :
+      print("error for csv_file : ", csv_file)
+      #print(e)
+     # continue
 
     print(output_files)
     zip_files(output_files)
@@ -160,7 +160,7 @@ def classifier(local_file, loaded_model): # not possible when using lambda funct
   pred_list= []
   pred_code_list=[]
   for index, row in df.iterrows():
-    print(row['DESCRIPTION'])
+    print(row)
     text = row['DESCRIPTION']
     model_ckpt = "distilbert-base-uncased"
     tokenizer = AutoTokenizer.from_pretrained(model_ckpt, problem_type="multi_label_classification",cache_dir="/tmp")
@@ -194,7 +194,10 @@ def classifier(local_file, loaded_model): # not possible when using lambda funct
 
 
      
-    print(row['BANK_ID'],  '|' , 'The transcation '+ '"' + (row['DESCRIPTION']) + 
+    #print(row['BANK_ID'],  '|' , 'The transcation '+ '"' + (row['DESCRIPTION']) + 
+      #  '"', 'corresponds to the category ' , int(predictions))
+
+    print( 'The transcation '+ '"' + (row['DESCRIPTION']) + 
         '"', 'corresponds to the category ' , int(predictions))
     
   df1 = pd.DataFrame(list(zip(transaction_list, pred_list, pred_code_list)), columns = ['TRANSACTION', 'CATEGORY', 'CATEGORY_CODE'])
