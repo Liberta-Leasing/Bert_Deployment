@@ -80,25 +80,25 @@ def lambda_handler(event, context):
     print("####################\n") 
   # Goes through all images in the folder.
     for csv_file in glob.glob("/tmp/tesseract_csv_zip/tmp/yolo_output_zip/tmp/*.csv"):
-      #try:
-      print("toto")
+      try:
+        print("toto")
 
-      # All the necessary steps to execute the model
-      model_path = s3.Bucket('bert-weights').download_file('model.pt','/tmp/model.pt')
+        # All the necessary steps to execute the model
+        model_path = s3.Bucket('bert-weights').download_file('model.pt','/tmp/model.pt')
 
-      # Loading the model
-      loaded_model=load_model('/tmp/model.pt')        
-      # Predict
+        # Loading the model
+        loaded_model=load_model('/tmp/model.pt')        
+        # Predict
 
-      classifier(csv_file, loaded_model)
+        classifier(csv_file, loaded_model)
 
-      output_files.append(f'bert_{csv_file}')
-      upload_file('/tmp/my_ouptput.csv','output-tables/output.csv')
+        output_files.append(f'bert_{csv_file}')
+        upload_file('/tmp/my_ouptput.csv','output-tables/output.csv')
 
-    #except Exception as e :
-      print("error for csv_file : ", csv_file)
-      #print(e)
-     # continue
+      except Exception as e :
+        print("error for csv_file : ", csv_file)
+        print(e)
+        continue
 
     print(output_files)
     zip_files(output_files)
@@ -155,7 +155,7 @@ def load_model(model_path):
 # we have to add the loaded_model import here or another script
 def classifier(local_file, loaded_model): # not possible when using lambda function 
    
-  df = pd.read_csv(local_file, sep =';' )
+  df = pd.read_csv(local_file, sep =',' )
   transaction_list = [] 
   pred_list= []
   pred_code_list=[]
