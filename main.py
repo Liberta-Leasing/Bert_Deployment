@@ -94,7 +94,7 @@ def lambda_handler(event, context):
 
         classifier(csv_file, loaded_model)
 
-        upload_file(f'/tmp/bert_{csv_file}',f'processing/bert_output/bert_{csv_file}')
+        upload_file(f'{csv_file}',f'processing/bert_output/{csv_file}')
 
         #output_files.append(f'bert_{csv_file}')
 
