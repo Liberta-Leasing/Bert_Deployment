@@ -45,6 +45,9 @@ def lambda_handler(event, context):
     os.makedirs('/tmp/bert_output_zip', exist_ok= True) 
     print("1 : /tmp/bert_output_zip was created")
 
+    os.makedirs('/tmp/bert_output', exist_ok= True) 
+    print("1 : /tmp/bert_output was created")
+
     print(event)
     #download the image
     csv_key = event["Records"][0]["s3"]["object"]["key"]
@@ -94,7 +97,7 @@ def lambda_handler(event, context):
 
         classifier(csv_file, loaded_model)
 
-        output_files.append(f'{csv_file[-4]}_bert.csv')
+        output_files.append(f'/tmp/bert_output/{csv_file[:-4]}.csv')
 
       except Exception as e :
         print("error for csv_file : ", csv_file)
@@ -199,7 +202,7 @@ def classifier(local_file, loaded_model): # not possible when using lambda funct
     
   df1 = pd.DataFrame(list(zip(transaction_list, pred_list, pred_code_list)), columns = ['TRANSACTION', 'CATEGORY', 'CATEGORY_CODE'])
 
-  df1.to_csv(f'{local_file[-4]}_bert.csv')
+  df1.to_csv(f'/tmp/bert_output/{local_file[:-4]}.csv')
 
 
 #Function to upload files to s3
