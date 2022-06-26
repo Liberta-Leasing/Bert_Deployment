@@ -73,13 +73,13 @@ def lambda_handler(event, context):
     print("step 7: listing the files matching /tmp/tesseract_csv_zip/tmp/yolo_output_zip/")
     print(os.listdir("/tmp/tesseract_csv_zip/tmp/yolo_output_zip"))
     print("step 8: listing the files matching /tmp/tesseract_csv_zip/tmp/yolo_output_zip/tmp/")
-    print(os.listdir("/tmp/tesseract_csv_zip/tmp/yolo_output_zip/tmp"))
+    print(os.listdir("/tmp/tesseract_csv_zip/tmp/yolo_output_zip"))
 
     print("####################\n")  
     print("BERT\n")
     print("####################\n") 
   # Goes through all images in the folder.
-    for csv_file in glob.glob("/tmp/tesseract_csv_zip/tmp/yolo_output_zip/tmp/*.csv"):
+    for csv_file in glob.glob("/tmp/tesseract_csv_zip/tmp/yolo_output_zip/*.csv"):
       try:
         print("toto")
 
