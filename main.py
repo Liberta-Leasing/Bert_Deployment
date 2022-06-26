@@ -42,8 +42,8 @@ def lambda_handler(event, context):
     os.makedirs('/tmp/tesseract_csv_zip', exist_ok= True) 
     print("1 : /tmp/tesseract_csv_zip was created")
 
-    os.makedirs('/tmp/bert_/tmp/tesseract_csv_zip/tmp/yolo_output_zip', exist_ok= True) 
-    print("1 : /tmp/bert_/tmp/tesseract_csv_zip/tmp/yolo_output_zip was created")
+    os.makedirs('/tmp/bert_output_zip', exist_ok= True) 
+    print("1 : /tmp/bert_output_zip was created")
 
     print(event)
     #download the image
@@ -58,7 +58,7 @@ def lambda_handler(event, context):
     download_from_s3(csv_key, local_zip_file)
     list_of_files = unzip(local_zip_file)
 
-    output_files = []
+    #output_files = []
     #print("####################\n")  
     #print("WHERE ARE MY FILES?\n")
     #print("####################\n")  
@@ -94,21 +94,23 @@ def lambda_handler(event, context):
 
         classifier(csv_file, loaded_model)
 
-        output_files.append(f'bert_{csv_file}')
+        upload_file(f'/tmp/bert_{csv_file}','processing/bert_output/bert_{csv_file}')
+
+        #output_files.append(f'bert_{csv_file}')
 
       except Exception as e :
         print("error for csv_file : ", csv_file)
         print(e)
         continue
 
-    print(output_files)
-    zip_files(output_files)
+    #print(output_files)
+    #zip_files(output_files)
     
-    print("####################\n")  
-    print("OUTPUT\n")
-    print("####################\n") 
+   # print("####################\n")  
+    #print("OUTPUT\n")
+    #print("####################\n") 
     # will be problematic if we want to keep track of the customer 
-    upload_file('/tmp/bert_csv.zip','processing/' +folder +'bert_output/bert_csv.zip')
+    #upload_file('/tmp/bert_csv.zip','processing/bert_output/bert_csv.zip')
 
     return "output: Lambda execution was successful"
   
