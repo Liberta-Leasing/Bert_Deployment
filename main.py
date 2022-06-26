@@ -55,23 +55,23 @@ def lambda_handler(event, context):
     list_of_files = unzip(local_zip_file)
 
     output_files = []
-    print("####################\n")  
-    print("WHERE ARE MY FILES?\n")
-    print("####################\n")  
-    print("step 1: listing files matching /tmp/*.csv ")
-    print(glob.glob("/tmp/*.csv"))
-    print("step 2: listing the files matching tmp/*.csv")
-    print(glob.glob("tmp/*.csv"))
-    print("step 3: listing the files in tmp/")
-    print(os.listdir("/tmp"))
-    print("step 4: listing the files matching /tmp/tesseract_csv_zip/*.csv" )
-    print(glob.glob("/tmp/tmp/tesseract_csv_zip/*.csv"))
-    print("step 5: listing the files matching /tmp/tesseract_csv_zip")
-    print(os.listdir("/tmp/tesseract_csv_zip"))
-    print("step 6: listing the files matching /tmp/tesseract_csv_zip/tmp")
-    print(os.listdir("/tmp/tesseract_csv_zip/tmp"))
-    print("step 7: listing the files matching /tmp/tesseract_csv_zip/tmp/yolo_output_zip/")
-    print(os.listdir("/tmp/tesseract_csv_zip/tmp/yolo_output_zip"))
+    #print("####################\n")  
+    #print("WHERE ARE MY FILES?\n")
+    #print("####################\n")  
+    #print("step 1: listing files matching /tmp/*.csv ")
+    #print(glob.glob("/tmp/*.csv"))
+    #print("step 2: listing the files matching tmp/*.csv")
+    #print(glob.glob("tmp/*.csv"))
+    #print("step 3: listing the files in tmp/")
+    #print(os.listdir("/tmp"))
+    #print("step 4: listing the files matching /tmp/tesseract_csv_zip/*.csv" )
+    #print(glob.glob("/tmp/tmp/tesseract_csv_zip/*.csv"))
+    #print("step 5: listing the files matching /tmp/tesseract_csv_zip")
+    #print(os.listdir("/tmp/tesseract_csv_zip"))
+    #print("step 6: listing the files matching /tmp/tesseract_csv_zip/tmp")
+    #print(os.listdir("/tmp/tesseract_csv_zip/tmp"))
+    #print("step 7: listing the files matching /tmp/tesseract_csv_zip/tmp/yolo_output_zip/")
+    #print(os.listdir("/tmp/tesseract_csv_zip/tmp/yolo_output_zip"))
 
     print("####################\n")  
     print("BERT\n")
@@ -79,7 +79,7 @@ def lambda_handler(event, context):
   # Goes through all images in the folder.
     for csv_file in glob.glob("/tmp/tesseract_csv_zip/tmp/yolo_output_zip/*.csv"):
       try:
-        print("toto")
+        #print("toto")
 
         # All the necessary steps to execute the model
         model_path = s3.Bucket('bert-weights').download_file('model.pt','/tmp/model.pt')
@@ -104,7 +104,7 @@ def lambda_handler(event, context):
     print("OUTPUT\n")
     print("####################\n") 
     # will be problematic if we want to keep track of the customer 
-    upload_file('/tmp/bert_csv.zip','processing/bert_output/bert_csv.zip')
+    upload_file(f'/tmp/bert_{csv_file}','processing/bert_output/bert_csv.zip')
 
     return "output: Lambda execution was successful"
   
@@ -157,7 +157,6 @@ def classifier(local_file, loaded_model): # not possible when using lambda funct
   pred_list= []
   pred_code_list=[]
   for index, row in df.iterrows():
-    print(row)
     text = row['DESCRIPTION']
     model_ckpt = "distilbert-base-uncased"
     tokenizer = AutoTokenizer.from_pretrained(model_ckpt, problem_type="multi_label_classification",cache_dir="/tmp")
@@ -187,9 +186,6 @@ def classifier(local_file, loaded_model): # not possible when using lambda funct
       pred_list.append('PAYMENT')
     elif int(predictions)== 9:
       pred_list.append('UNKNOWN')
-
-
-
      
     #print(row['BANK_ID'],  '|' , 'The transcation '+ '"' + (row['DESCRIPTION']) + 
       #  '"', 'corresponds to the category ' , int(predictions))
@@ -200,8 +196,6 @@ def classifier(local_file, loaded_model): # not possible when using lambda funct
   df1 = pd.DataFrame(list(zip(transaction_list, pred_list, pred_code_list)), columns = ['TRANSACTION', 'CATEGORY', 'CATEGORY_CODE'])
 
   df1.to_csv(f'/tmp/bert_{local_file}')
-
-  #return df_csv
 
 
 #Function to upload files to s3
