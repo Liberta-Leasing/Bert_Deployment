@@ -94,7 +94,7 @@ def lambda_handler(event, context):
 
         classifier(csv_file, loaded_model)
 
-        upload_file(f'{csv_file}',f'processing/bert_output/{csv_file}')
+        upload_file(f'{csv_file[-4]}_bert.csv',f'processing/bert_output/{csv_file[-4]}_bert.csv')
 
         #output_files.append(f'bert_{csv_file}')
 
@@ -201,7 +201,7 @@ def classifier(local_file, loaded_model): # not possible when using lambda funct
     
   df1 = pd.DataFrame(list(zip(transaction_list, pred_list, pred_code_list)), columns = ['TRANSACTION', 'CATEGORY', 'CATEGORY_CODE'])
 
-  df1.to_csv(f'/tmp/bert_{local_file}')
+  df1.to_csv(f'{local_file[-4]}_bert.csv)
 
 
 #Function to upload files to s3
