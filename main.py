@@ -93,7 +93,6 @@ def lambda_handler(event, context):
         classifier(csv_file, loaded_model)
 
         output_files.append(f'bert_{csv_file}')
-        upload_file('/tmp/my_ouptput.csv','output-tables/output.csv')
 
       except Exception as e :
         print("error for csv_file : ", csv_file)
@@ -202,7 +201,7 @@ def classifier(local_file, loaded_model): # not possible when using lambda funct
     
   df1 = pd.DataFrame(list(zip(transaction_list, pred_list, pred_code_list)), columns = ['TRANSACTION', 'CATEGORY', 'CATEGORY_CODE'])
 
-  df1.to_csv(f'/tmp/bert_{local_file}.csv')
+  df1.to_csv(f'/tmp/bert_{local_file}')
 
   #return df_csv
 
