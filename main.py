@@ -49,6 +49,7 @@ def lambda_handler(event, context):
     csv_split = event["Records"][0]["s3"]["object"]["key"].split('/')
     input_csv = csv_split[-1]
     print(input_csv)
+    folder = csv_split[1]
     local_zip_file = f'/tmp/{input_csv}'
     #download_from_s3(filename, local_file)
     download_from_s3(csv_key, local_zip_file)
@@ -104,7 +105,7 @@ def lambda_handler(event, context):
     print("OUTPUT\n")
     print("####################\n") 
     # will be problematic if we want to keep track of the customer 
-    upload_file('/tmp/bert_csv.zip',f'processing/bert_output/bert_{input_csv[-4]}.zip')
+    upload_file('/tmp/bert_csv.zip','processing/' +folder +'bert_output/bert_csv.zip')
 
     return "output: Lambda execution was successful"
   
