@@ -61,7 +61,7 @@ Bert_deployment
 <details open>
 <summary>Copy your output in your local host</summary>
   
- We need to copy outpu.csv from the repository Bert_deployment in the container to our classi folder which has the path /c/Users/manar/Desktop/classi
+ We need to copy outpu.csv from the repository Bert_deployment in the container to our classi folder which has for example the path /c/Users/manar/Desktop/classi
   get the running container id or name (using the line docker ps -a)
   
   ```bash
